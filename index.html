@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FPO Connect India – Find & Join Farmer Producer Organisations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --blue-dark: #12372a;
+    --blue-mid: #28734a;
+    --blue-light: #4f9b67;
+    --blue-pale: #e7f1e8;
+    --accent: #e6a23c;
+    --white: #ffffff;
+    --gray-light: #f6f7f2;
+    --gray-mid: #8898b0;
+    --gray-dark: #2d3a4a;
+    --green: #1a8c4e;
+    --border: #d7e1d6;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; color: var(--gray-dark); background: var(--white); line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 64px;
+    box-shadow: 0 2px 8px rgba(18,55,42,0.07);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 36px; height: 36px; background: var(--blue-mid); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .nav-logo-icon svg { width: 22px; height: 22px; fill: white; }
+  .nav-logo-img { width: 60px; height: 60px; object-fit: contain; border-radius: 6px; }
+  .nav-logo-text { font-weight: 700; font-size: 1.1rem; color: var(--blue-dark); }
+  .nav-logo-text span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--gray-dark); font-size: 0.86rem; font-weight: 600; padding: 8px 11px; border-radius: 6px; transition: color 0.2s, background 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--blue-mid); background: var(--blue-pale); }
+  .nav-links a.nav-cta { color: white; background: var(--blue-mid); }
+  .nav-links a.nav-cta:hover { color: white; background: var(--blue-dark); }
+  .nav-links a:hover { color: var(--blue-mid); }
+  .nav-cta { background: var(--blue-mid); color: white; border: none; padding: 9px 20px; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--blue-dark); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(90deg, rgba(12,45,31,0.94) 0%, rgba(18,55,42,0.8) 52%, rgba(18,55,42,0.38) 100%), url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1800&q=85');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 90px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; inset: 0; background: rgba(18,55,42,0.08); pointer-events: none; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.18; margin-bottom: 22px; }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.82); margin-bottom: 36px; max-width: 480px; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: var(--blue-dark); padding: 13px 28px; border-radius: 7px; font-weight: 700; font-size: 0.95rem; text-decoration: none; border: none; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,160,33,0.4); }
+  .btn-secondary { background: transparent; color: white; padding: 13px 28px; border-radius: 7px; font-weight: 600; font-size: 0.95rem; text-decoration: none; border: 2px solid rgba(255,255,255,0.4); cursor: pointer; transition: border-color 0.2s; }
+  .btn-secondary:hover { border-color: white; }
+
+  /* Hero stats card */
+  .hero-stats { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 32px; backdrop-filter: blur(8px); }
+  .hero-stats h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: white; line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+  /* SEARCH SECTION */
+  .search-section { background: var(--gray-light); padding: 60px 5%; }
+  .search-section h2 { text-align: center; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue-dark); margin-bottom: 8px; }
+  .search-section p { text-align: center; color: var(--gray-mid); margin-bottom: 32px; }
+  .search-box { max-width: 920px; margin: 0 auto; background: white; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(18,55,42,0.08); padding: 24px; }
+  .search-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--blue-dark); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .field select, .field input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.92rem; font-family: 'Inter', sans-serif; color: var(--gray-dark); background: white; outline: none; transition: border-color 0.2s; }
+  .field select:focus, .field input:focus { border-color: var(--blue-light); }
+  .search-btn { background: var(--blue-mid); color: white; border: none; padding: 11px 24px; border-radius: 7px; font-size: 0.92rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+  .search-btn:hover { background: var(--blue-dark); }
+
+  /* FPO DIRECTORY */
+  .directory { padding: 70px 5%; max-width: 1200px; margin: 0 auto; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 32px; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--blue-dark); }
+  .section-header a { color: var(--blue-mid); font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+  .fpo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .fpo-card {
+    background: white; border: 1.5px solid var(--border); border-radius: 12px; padding: 24px;
+    transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer;
+  }
+  .fpo-card:hover { border-color: var(--blue-light); box-shadow: 0 6px 24px rgba(18,55,42,0.1); transform: translateY(-2px); }
+  .fpo-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .fpo-avatar { width: 48px; height: 48px; border-radius: 10px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+  .fpo-badge { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .badge-active { background: #e6f9ef; color: var(--green); }
+  .badge-new { background: #fff3e0; color: #e65c00; }
+  .fpo-name { font-weight: 700; font-size: 1rem; color: var(--blue-dark); margin-bottom: 4px; }
+  .fpo-meta { font-size: 0.8rem; color: var(--gray-mid); margin-bottom: 12px; }
+  .fpo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { font-size: 0.72rem; background: var(--blue-pale); color: var(--blue-mid); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .fpo-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
+  .fpo-members { font-size: 0.8rem; color: var(--gray-mid); }
+  .fpo-members strong { color: var(--gray-dark); }
+  .join-btn { font-size: 0.82rem; font-weight: 600; color: var(--blue-mid); background: var(--blue-pale); border: none; padding: 6px 16px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+  .join-btn:hover { background: var(--blue-light); color: white; }
+
+  /* REGISTRATION */
+  .registration { background: var(--blue-pale); padding: 70px 5%; }
+  .reg-inner { max-width: 760px; margin: 0 auto; }
+  .reg-inner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue-dark); text-align: center; margin-bottom: 8px; }
+  .reg-inner > p { text-align: center; color: var(--gray-mid); margin-bottom: 36px; }
+  .reg-form { background: white; border-radius: 10px; padding: 32px; box-shadow: 0 4px 24px rgba(18,55,42,0.08); }
+  .external-form-card { text-align: center; padding: 28px 20px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+  .external-form-card p { color: var(--gray-mid); margin-bottom: 20px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--blue-dark); }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 7px;
+    font-size: 0.92rem; font-family: 'Inter', sans-serif; color: var(--gray-dark);
+    outline: none; transition: border-color 0.2s; resize: vertical;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue-light); }
+  .form-submit { margin-top: 24px; text-align: center; }
+  .form-submit button { background: var(--blue-mid); color: white; border: none; padding: 14px 40px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .form-submit button:hover { background: var(--blue-dark); }
+  .form-note { font-size: 0.78rem; color: var(--gray-mid); margin-top: 10px; }
+
+  /* SUCCESS STORIES */
+  .stories { padding: 70px 5%; max-width: 1200px; margin: 0 auto; }
+  .stories h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue-dark); text-align: center; margin-bottom: 8px; }
+  .stories > p { text-align: center; color: var(--gray-mid); margin-bottom: 40px; }
+  .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .story-card { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); transition: box-shadow 0.2s; }
+  .story-card:hover { box-shadow: 0 8px 28px rgba(13,43,94,0.12); }
+  .story-img { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+  .story-body { padding: 22px; }
+  .story-tag { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue-mid); margin-bottom: 8px; }
+  .story-title { font-weight: 700; font-size: 1rem; color: var(--blue-dark); margin-bottom: 8px; }
+  .story-text { font-size: 0.88rem; color: var(--gray-mid); line-height: 1.6; margin-bottom: 14px; }
+  .story-impact { display: flex; gap: 16px; }
+  .impact-item { text-align: center; }
+  .impact-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--green); font-weight: 700; }
+  .impact-label { font-size: 0.7rem; color: var(--gray-mid); }
+
+  /* SCHEMES */
+  .schemes { background: var(--gray-light); padding: 70px 5%; }
+  .schemes-inner { max-width: 1100px; margin: 0 auto; }
+  .schemes-inner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue-dark); text-align: center; margin-bottom: 8px; }
+  .schemes-inner > p { text-align: center; color: var(--gray-mid); margin-bottom: 40px; }
+  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+  .scheme-card { background: white; border-radius: 8px; padding: 22px; border: 1.5px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+  .scheme-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(18,55,42,0.08); }
+  .scheme-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 14px; }
+  .scheme-name { font-weight: 700; font-size: 0.95rem; color: var(--blue-dark); margin-bottom: 6px; }
+  .scheme-ministry { font-size: 0.75rem; color: var(--blue-light); font-weight: 600; margin-bottom: 10px; }
+  .scheme-desc { font-size: 0.84rem; color: var(--gray-mid); line-height: 1.55; margin-bottom: 16px; }
+  .scheme-link { font-size: 0.82rem; font-weight: 600; color: var(--blue-mid); text-decoration: none; }
+  .scheme-link:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer { background: var(--blue-dark); color: rgba(255,255,255,0.75); padding: 50px 5% 28px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand p { font-size: 0.88rem; margin-top: 12px; line-height: 1.6; }
+  .footer-col h4 { color: white; font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col ul a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-col ul a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; justify-content: space-between; font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 16px; padding: 36px; max-width: 460px; width: 90%; position: relative; }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue-dark); margin-bottom: 8px; }
+  .modal p { font-size: 0.9rem; color: var(--gray-mid); margin-bottom: 24px; }
+  .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--gray-mid); }
+  .modal-fields { display: flex; flex-direction: column; gap: 14px; }
+  .modal-fields input, .modal-fields select { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.92rem; font-family: 'Inter', sans-serif; outline: none; }
+  .modal-fields input:focus, .modal-fields select:focus { border-color: var(--blue-light); }
+  .modal-submit { background: var(--blue-mid); color: white; border: none; padding: 13px; border-radius: 7px; font-size: 0.95rem; font-weight: 700; cursor: pointer; width: 100%; margin-top: 6px; transition: background 0.2s; }
+  .modal-submit:hover { background: var(--blue-dark); }
+  .menu-toggle { display: none; border: 0; background: var(--blue-pale); color: var(--blue-dark); border-radius: 6px; padding: 8px 10px; font-size: 1.15rem; cursor: pointer; }
+  .about-band { padding: 52px 5%; background: white; text-align: center; }
+  .about-band-inner { max-width: 760px; margin: 0 auto; }
+  .about-band h2 { font-family: 'Playfair Display', serif; color: var(--blue-dark); font-size: 2rem; margin-bottom: 10px; }
+  .about-band p { color: var(--gray-mid); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 30px; right: 30px; background: var(--green); color: white; padding: 14px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; z-index: 300; transform: translateY(80px); opacity: 0; transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; padding: 12px 5%; background: white; border-bottom: 1px solid var(--border); box-shadow: 0 8px 16px rgba(18,55,42,0.08); flex-direction: column; align-items: stretch; gap: 4px; }
+    .nav-links.open { display: flex; }
+    .nav-links a { display: block; padding: 11px 12px; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .search-row { grid-template-columns: 1fr 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 70px 5% 60px; background-position: 62% center; }
+    .hero-btns a { flex: 1 1 100%; text-align: center; }
+    .search-row { grid-template-columns: 1fr; }
+    .section-header { align-items: flex-start; gap: 12px; flex-direction: column; }
+  }
+  @media (max-width: 480px) { .footer-inner { grid-template-columns: 1fr; gap: 26px; } .footer-bottom { flex-direction: column; gap: 6px; } .hero h1 { font-size: 2.15rem; } .reg-form { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <img class="nav-logo-img" src="/assets/fpo.jpeg" alt="FPO Connect Logo" srcset="">
+    <span class="nav-logo-text">FPO<span>Connect</span></span>
+  </a>
+  <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" onclick="toggleMenu()">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#directory" class="nav-cta">Find an FPO</a></li>
+    <li><a href="https://forms.gle/aXaDpitBj1ysu8rj6" class="nav-cta" target="_blank" rel="noopener noreferrer">Register as Farmer</a></li>
+    <li><a href="https://forms.gle/9omLhU66EwejdJ8R9" class="nav-cta" target="_blank" rel="noopener noreferrer">Register as FPO</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">FPO Connect</div>
+      <h1>Connecting Farmers. <span>Strengthening FPOs.</span></h1>
+      <p class="hero-sub">Discover trusted Farmer Producer Organisations, expand market access, and build stronger rural livelihoods through collective action.</p>
+      <div class="hero-btns">
+        <a href="#directory" class="btn-primary">Find an FPO</a>
+        <a href="https://forms.gle/aXaDpitBj1ysu8rj6" class="btn-secondary" target="_blank" rel="noopener noreferrer">Register as Farmer</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <h3>FPO Connect India at a Glance</h3>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-num">10,000+</div><div class="stat-label">FPOs Registered Nationwide</div></div>
+        <div class="stat-item"><div class="stat-num">1.2 Cr</div><div class="stat-label">Farmer Members</div></div>
+        <div class="stat-item"><div class="stat-num">36</div><div class="stat-label">States & UTs Covered</div></div>
+        <div class="stat-item"><div class="stat-num">₹8,000 Cr</div><div class="stat-label">Annual Collective Trade</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-band" id="about">
+  <div class="about-band-inner">
+    <h2>A stronger network for Indian agriculture</h2>
+    <p>FPO Connect brings farmers and Farmer Producer Organisations closer together, making it easier to find collective support, market opportunities, and practical resources.</p>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="search-section" id="directory">
+  <h2>Find an FPO</h2>
+  <p>Search by state, commodity, or keyword to find the right Farmer Producer Organisation</p>
+  <div class="search-box">
+    <div class="search-row">
+      <div class="field">
+        <label>State</label>
+        <select id="stateFilter">
+          <option value="">All States</option>
+          <option>Uttar Pradesh</option><option>Maharashtra</option><option>Punjab</option>
+          <option>Rajasthan</option><option>Madhya Pradesh</option><option>Bihar</option>
+          <option>Karnataka</option><option>Andhra Pradesh</option><option>Tamil Nadu</option>
+          <option>Gujarat</option><option>West Bengal</option><option>Odisha</option>
+          <option>Telangana</option><option>Haryana</option><option>Himachal Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Chhattisgarh</option><option>Goa</option><option>Jharkhand</option><option>Kerala</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Sikkim</option><option>Tripura</option><option>Uttarakhand</option><option>Andaman and Nicobar Islands</option><option>Chandigarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Jammu and Kashmir</option><option>Ladakh</option><option>Lakshadweep</option><option>Puducherry</option>
+
+        </select>
+      </div>
+      <div class="field">
+        <label>Commodity</label>
+        <select id="commodityFilter">
+          <option value="">All Commodities</option>
+          <option>Rice / Paddy</option><option>Wheat</option><option>Maize</option>
+          <option>Vegetables</option><option>Fruits</option><option>Pulses</option>
+          <option>Oilseeds</option><option>Cotton</option><option>Sugarcane</option>
+          <option>Spices</option><option>Dairy</option><option>Fisheries</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Search by name</label>
+        <input type="text" id="nameSearch" placeholder="e.g. Kisan Sangha…"/>
+      </div>
+      <button class="search-btn" onclick="filterFPOs()">Search</button>
+    </div>
+  </div>
+</section>
+
+<!-- FPO DIRECTORY -->
+<section style="padding: 50px 5%;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header">
+      <h2>Featured FPOs</h2>
+      <a href="#directory">View all 10,000+ FPOs →</a>
+    </div>
+    <div class="fpo-grid" id="fpoGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION -->
+<section class="registration" id="register">
+  <div class="reg-inner">
+    <h2>Join the FPO Connect Network</h2>
+    <p>Whether you are a farmer or an FPO, become part of a connected agricultural ecosystem.</p>
+    <div class="reg-form">
+      <div class="external-form-card">
+        <p>Registration is handled securely through Google Forms. Choose the path that fits your role.</p>
+        <div class="hero-btns" style="justify-content:center;">
+          <a href="https://forms.gle/aXaDpitBj1ysu8rj6" class="btn-primary" target="_blank" rel="noopener noreferrer">Register as Farmer</a>
+          <a href="https://forms.gle/9omLhU66EwejdJ8R9" class="btn-secondary" style="background:var(--blue-mid);border-color:var(--blue-mid);" target="_blank" rel="noopener noreferrer">Register as FPO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS STORIES -->
+<section class="stories" id="stories">
+  <h2>Farmer Success Stories</h2>
+  <p>Real farmers. Real impact. From across India.</p>
+  <div class="stories-grid">
+    <div class="story-card">
+      <div class="story-img" style="background:#e8f5e9;">🌾</div>
+      <div class="story-body">
+        <div class="story-tag">Wheat · Punjab</div>
+        <div class="story-title">Gurpreet Singh doubled his income in 18 months</div>
+        <p class="story-text">After joining the Amritsar Kisan FPO, Gurpreet gained access to bulk input procurement and direct market linkage, eliminating middlemen entirely.</p>
+        <div class="story-impact">
+          <div class="impact-item"><div class="impact-num">2×</div><div class="impact-label">Income Growth</div></div>
+          <div class="impact-item"><div class="impact-num">₹3.2L</div><div class="impact-label">Annual Savings</div></div>
+          <div class="impact-item"><div class="impact-num">18 mo</div><div class="impact-label">Timeline</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-img" style="background:#fff3e0;">🍅</div>
+      <div class="story-body">
+        <div class="story-tag">Vegetables · Maharashtra</div>
+        <div class="story-title">Sunita Patil's group now exports to UAE markets</div>
+        <p class="story-text">The Nashik Mahila Kisan FPO, led by women farmers, secured an export contract for tomatoes and onions worth ₹1.4 crore last season.</p>
+        <div class="story-impact">
+          <div class="impact-item"><div class="impact-num">340</div><div class="impact-label">Women Farmers</div></div>
+          <div class="impact-item"><div class="impact-num">₹1.4Cr</div><div class="impact-label">Export Revenue</div></div>
+          <div class="impact-item"><div class="impact-num">3 yr</div><div class="impact-label">FPO Age</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-img" style="background:#e3f2fd;">🐟</div>
+      <div class="story-body">
+        <div class="story-tag">Fisheries · Tamil Nadu</div>
+        <div class="story-title">Coastal fishers of Ramanathapuram access cold chain</div>
+        <p class="story-text">The Meenavar Nala FPO helped 200 fishing families invest in shared cold storage, reducing post-harvest loss from 35% to under 8%.</p>
+        <div class="story-impact">
+          <div class="impact-item"><div class="impact-num">200</div><div class="impact-label">Families</div></div>
+          <div class="impact-item"><div class="impact-num">–27%</div><div class="impact-label">Wastage Reduction</div></div>
+          <div class="impact-item"><div class="impact-num">₹80L</div><div class="impact-label">Revenue Gain</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEMES -->
+<section class="schemes" id="schemes">
+  <div class="schemes-inner">
+    <h2>Government Schemes for FPOs</h2>
+    <p>Key programmes and policies supporting Farmer Producer Organisations across India</p>
+    <div class="schemes-grid">
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#e8f0fb;">🏦</div>
+        <div class="scheme-name">Formation & Promotion of 10,000 FPOs</div>
+        <div class="scheme-ministry">Ministry of Agriculture & Farmers Welfare</div>
+        <p class="scheme-desc">Central government scheme to form and promote 10,000 new FPOs by 2027–28 with ₹6,865 crore outlay and equity grants per FPO.</p>
+        <a href="schemes/formation-promotion-10000-fpos.html" class="scheme-link">Learn more →</a>
+      </div>
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#e6f9ef;">💰</div>
+        <div class="scheme-name">NABARD FPO Financing</div>
+        <div class="scheme-ministry">NABARD</div>
+        <p class="scheme-desc">Dedicated credit guarantee fund and concessional finance for FPOs including working capital loans, term loans, and capacity building grants.</p>
+        <a href="schemes/nabard-fpo-financing.html" class="scheme-link">Learn more →</a>
+      </div>
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#fff3e0;">📦</div>
+        <div class="scheme-name">PM Kisan SAMPADA Yojana</div>
+        <div class="scheme-ministry">Ministry of Food Processing</div>
+        <p class="scheme-desc">Grants for post-harvest infrastructure including cold chains, warehouses, and processing units for agri-produce handled by FPOs.</p>
+        <a href="schemes/pm-kisan-sampada-yojana.html" class="scheme-link">Learn more →</a>
+      </div>
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#fce4ec;">🌐</div>
+        <div class="scheme-name">eNAM Integration for FPOs</div>
+        <div class="scheme-ministry">Ministry of Agriculture</div>
+        <p class="scheme-desc">FPOs can onboard directly onto the National Agriculture Market (eNAM) platform to sell produce to buyers across India without middlemen.</p>
+        <a href="schemes/enam-integration-fpos.html" class="scheme-link">Learn more →</a>
+      </div>
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#e8f5e9;">🌱</div>
+        <div class="scheme-name">SFAC Equity Grant Scheme</div>
+        <div class="scheme-ministry">Small Farmers' Agribusiness Consortium</div>
+        <p class="scheme-desc">Matching equity grants up to ₹15 lakh per FPO and credit guarantee coverage to help FPOs access institutional credit more easily.</p>
+        <a href="schemes/sfac-equity-grant.html" class="scheme-link">Learn more →</a>
+      </div>
+      <div class="scheme-card">
+        <div class="scheme-icon" style="background:#ede7f6;">🎓</div>
+        <div class="scheme-name">Capacity Building for FPOs</div>
+        <div class="scheme-ministry">DAY-NRLM / Ministry of Rural Development</div>
+        <p class="scheme-desc">Training programmes on governance, financial management, digital literacy, and market linkage for FPO leaders and board members.</p>
+        <a href="schemes/capacity-building-fpos.html" class="scheme-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="background:white;border-radius:10px;padding:4px;display:flex;align-items:center;justify-content:center;">
+          <img src="assets/fpo.jpeg" alt="FPO Connect logo" style="width:40px;height:40px;object-fit:contain;display:block;"/>
+        </div>
+        <span style="font-family:'Playfair Display',serif;font-size:1.3rem;color:white;font-weight:700;">FPO<span style="color:var(--accent);">Connect</span></span>
+      </div>
+      <p>A pan-India platform connecting farmers with Farmer Producer Organisations to strengthen collective bargaining, market access, and rural livelihoods.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#directory">Find an FPO</a></li>
+        <li><a href="https://forms.gle/aXaDpitBj1ysu8rj6" target="_blank" rel="noopener noreferrer">Register as Farmer</a></li>
+        <li><a href="https://forms.gle/9omLhU66EwejdJ8R9" target="_blank" rel="noopener noreferrer">Register as FPO</a></li>
+        <li><a href="#stories">Success Stories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#schemes">Government Schemes</a></li>
+        <li><a href="schemes/formation-promotion-10000-fpos.html">FPO Guidelines</a></li>
+        <li><a href="schemes/capacity-building-fpos.html">Training Modules</a></li>
+        <li><a href="#about">About FPO Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#about">Our Network</a></li>
+        <li><a href="mailto:connect@fpoconnect.in">Contact</a></li>
+        <li><a href="#about">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 FPOConnect India. All rights reserved.</span>
+    <span>Built to empower India's farmers 🌾</span>
+  </div>
+</footer>
+
+<!-- JOIN MODAL -->
+<div class="modal-overlay" id="joinModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalFPOName">Join FPO</h3>
+    <p>Enter your basic details and the FPO will contact you within 2 working days.</p>
+    <div class="modal-fields">
+      <input type="text" placeholder="Your Full Name"/>
+      <input type="tel" placeholder="Mobile Number"/>
+      <input type="text" placeholder="Your District"/>
+      <select><option>Select your main crop</option><option>Rice</option><option>Wheat</option><option>Vegetables</option><option>Fruits</option><option>Pulses</option></select>
+      <button class="modal-submit" onclick="modalSubmit()">Send Request to FPO</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const fpos = [
+  { name: "Amritsar Kisan Utpadak Sangha", state: "Punjab", commodity: "Wheat", members: 520, emoji: "🌾", badge: "active", tags: ["Wheat","Input Supply","Mandi Access"] },
+  { name: "Nashik Mahila Agri FPO", state: "Maharashtra", commodity: "Vegetables", members: 340, emoji: "🍅", badge: "active", tags: ["Vegetables","Export","Women-Led"] },
+  { name: "Vidarbha Cotton Growers FPC", state: "Maharashtra", commodity: "Cotton", members: 480, emoji: "🌿", badge: "active", tags: ["Cotton","Processing","Credit"] },
+  { name: "Bundelkhand Kisan Producer Co.", state: "Madhya Pradesh", commodity: "Pulses", members: 290, emoji: "🫘", badge: "new", tags: ["Pulses","Storage","eNAM"] },
+  { name: "Rajasthan Spice Growers FPO", state: "Rajasthan", commodity: "Spices", members: 415, emoji: "🌶️", badge: "active", tags: ["Spices","Export","GI Tag"] },
+  { name: "Bihar Rice Collective FPC", state: "Bihar", commodity: "Rice / Paddy", members: 610, emoji: "🍚", badge: "active", tags: ["Rice","Milling","Finance"] },
+  { name: "Karnataka Fruit Growers FPO", state: "Karnataka", commodity: "Fruits", members: 375, emoji: "🍇", badge: "new", tags: ["Fruits","Horticulture","FPO Bank"] },
+  { name: "Andhra Dairy Farmers Federation", state: "Andhra Pradesh", commodity: "Dairy", members: 860, emoji: "🐄", badge: "active", tags: ["Dairy","Cold Chain","NDDB"] },
+  { name: "Sundarbans Fisheries FPC", state: "West Bengal", commodity: "Fisheries", members: 225, emoji: "🐟", badge: "new", tags: ["Fish","Aquaculture","Export"] },
+];
+
+function renderFPOs(list) {
+  const grid = document.getElementById('fpoGrid');
+  grid.innerHTML = list.map(f => `
+    <div class="fpo-card" onclick="openModal('${f.name}')">
+      <div class="fpo-card-top">
+        <div class="fpo-avatar">${f.emoji}</div>
+        <span class="fpo-badge ${f.badge === 'active' ? 'badge-active' : 'badge-new'}">${f.badge === 'active' ? '✔ Active' : '🆕 New'}</span>
+      </div>
+      <div class="fpo-name">${f.name}</div>
+      <div class="fpo-meta">📍 ${f.state} &nbsp;·&nbsp; ${f.commodity}</div>
+      <div class="fpo-tags">${f.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="fpo-card-footer">
+        <div class="fpo-members"><strong>${f.members}</strong> members</div>
+        <button class="join-btn" onclick="event.stopPropagation();openModal('${f.name}')">Join FPO</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterFPOs() {
+  const state = document.getElementById('stateFilter').value;
+  const commodity = document.getElementById('commodityFilter').value;
+  const name = document.getElementById('nameSearch').value.toLowerCase();
+  const filtered = fpos.filter(f => {
+    return (!state || f.state === state) &&
+           (!commodity || f.commodity === commodity) &&
+           (!name || f.name.toLowerCase().includes(name));
+  });
+  renderFPOs(filtered.length ? filtered : fpos);
+  document.getElementById('directory').scrollIntoView({behavior:'smooth'});
+}
+
+function toggleMenu() {
+  const links = document.getElementById('navLinks');
+  const button = document.querySelector('.menu-toggle');
+  const isOpen = links.classList.toggle('open');
+  button.setAttribute('aria-expanded', String(isOpen));
+}
+
+document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-links a').forEach(item => item.classList.remove('active'));
+    link.classList.add('active');
+    document.getElementById('navLinks').classList.remove('open');
+    document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
+  });
+});
+
+function openModal(name) {
+  document.getElementById('modalFPOName').textContent = 'Join ' + name;
+  document.getElementById('joinModal').classList.add('open');
+}
+function closeModal() { document.getElementById('joinModal').classList.remove('open'); }
+document.getElementById('joinModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeModal(); });
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function modalSubmit() { closeModal(); showToast('✅ Request sent! The FPO will contact you soon.'); }
+function submitForm() { showToast('✅ Registration received! We\'ll find the right FPO for you within 48 hours.'); }
+
+renderFPOs(fpos);
+</script>
+</body>
+</html>
